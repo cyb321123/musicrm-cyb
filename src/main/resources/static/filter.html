@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Filter</title>
+    <style>
+        .filter-container {
+            margin: 20px;
+        }
+        .filter-option {
+            margin-bottom: 10px;
+        }
+        .filter-option label {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="filter-container">
+        <h1>Music Filter</h1>
+        <div class="filter-option">
+            <label>Genre:</label>
+            <select id="genre">
+                <option value="">All</option>
+                <option value="Pop">Pop</option>
+                <option value="Rock">Rock</option>
+                <option value="Jazz">Jazz</option>
+            </select>
+        </div>
+        <div class="filter-option">
+            <label>Language:</label>
+            <select id="language">
+                <option value="">All</option>
+                <option value="English">English</option>
+                <option value="Chinese">Chinese</option>
+                <option value="Cantonese">Cantonese</option>
+                <option value="Korean">Korean</option>
+            </select>
+        </div>
+        <div class="filter-option">
+            <label>Decade:</label>
+            <select id="decade">
+                <option value="">All</option>
+                <option value="2020s">2020s</option>
+                <option value="2010s">2010s</option>
+                <option value="2000s">2000s</option>
+            </select>
+        </div>
+        <button id="filter-button">Filter</button>
+    </div>
+
+    <div id="results">
+        <!-- Filter results will be displayed here -->
+    </div>
+
+    <script>
+        document.getElementById('filter-button').addEventListener('click', function () {
+            const genre = document.getElementById('genre').value;
+            const language = document.getElementById('language').value;
+            const decade = document.getElementById('decade').value;
+
+            // Call the backend API to get filtered results
+            fetch(`/api/music-resources/filter?genre=${genre}&language=${language}&decade=${decade}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultsDiv = document.getElementById('results');
+                    resultsDiv.innerHTML = ''; // Clear previous results
+
+                    if (data.length === 0) {
+                        resultsDiv.innerHTML = '<p>No matching music resources found.</p>';
+                    } else {
+                        data.forEach(music => {
+                            const musicDiv = document.createElement('div');
+                            musicDiv.innerHTML = `
+                                <h3>${music.title}</h3>
+                                <p>Artist: ${music.artist}</p>
+                                <p>Album: ${music.album}</p>
+                                <p>Genre: ${music.genre}</p>
+                                <p>Language: ${music.language}</p>
+                                <p>Decade: ${music.decade}</p>
+                                <hr>
+                            `;
+                            resultsDiv.appendChild(musicDiv);
+                        });
+                    }
+                });
+        });
+    </script>
+</body>
+</html>
