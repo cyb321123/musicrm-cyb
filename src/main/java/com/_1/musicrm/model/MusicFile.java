@@ -9,18 +9,20 @@ public class MusicFile {
     private String album;
     private List<Long> categoryIds;
     private List<Long> tagIds;
+    private String filePath; 
 
     // 无参构造函数
     public MusicFile() {}
 
-    // 全参数构造函数
-    public MusicFile(Long id, String title, String artist, String album, List<Long> categoryIds, List<Long> tagIds) {
+    // 全参数构造函数（包含 filePath）
+    public MusicFile(Long id, String title, String artist, String album, List<Long> categoryIds, List<Long> tagIds, String filePath) {
         this.id = id;
         this.title = title;
         this.artist = artist;
         this.album = album;
         this.categoryIds = categoryIds;
         this.tagIds = tagIds;
+        this.filePath = filePath;
     }
 
     // Getter
@@ -48,6 +50,10 @@ public class MusicFile {
         return tagIds;
     }
 
+    public String getFilePath() { 
+        return filePath;
+    }
+
     // Setter
     public void setId(Long id) {
         this.id = id;
@@ -72,4 +78,9 @@ public class MusicFile {
     public void setTagIds(List<Long> tagIds) {
         this.tagIds = tagIds;
     }
+
+    public void setFilePath(String filePath) { 
+        this.filePath = filePath;
+    }
 }
+
